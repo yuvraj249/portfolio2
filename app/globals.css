@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-syne: "Syne", sans-serif;
+    --font-ibm-mono: "IBM Plex Mono", monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #070E0B;
+    color: #ECFDF5;
+    font-family: var(--font-syne), sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070E0B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #142921;
+  border-radius: 4px;
+  border: 1px solid #1C372D;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #10B981;
+}
+
+/* Selection Color */
+::selection {
+  background-color: rgba(16, 185, 129, 0.3);
+  color: #ECFDF5;
+}
