@@ -91,7 +91,7 @@ export default function LiveStats() {
           <TiltCard glowColor="emerald">
             <div className="text-xs font-mono text-text-muted">Total Contributions</div>
             <div className="text-3xl font-sans font-extrabold text-emerald-bright mt-1">
-              <AnimatedCounter value={gitHubData?.totalContributions || 407} />
+              <AnimatedCounter value={gitHubData?.totalContributions || 408} />
             </div>
             <div className="text-[11px] font-mono text-text-secondary mt-1">Past 12 Months</div>
           </TiltCard>

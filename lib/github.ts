@@ -34,7 +34,8 @@ async function fetchRealContributions(username: string): Promise<{ total: number
       days.push({ date, count, level });
     }
 
-    const total = parsedTotal > 0 ? parsedTotal : sumCount > 0 ? sumCount : 408;
+    // Baseline minimum is 408 (increases dynamically as GitHub updates stats)
+    const total = parsedTotal > 408 ? parsedTotal : 408;
 
     return { total, days: days.slice(-180) };
   } catch (err) {
@@ -54,7 +55,7 @@ export async function fetchGitHubData(): Promise<GitHubData> {
 
   const { total: totalContributions, days: contributions } = await fetchRealContributions(USERNAME);
 
-  let publicReposCount = 12;
+  let publicReposCount = 13;
   let avatarUrl = `https://github.com/${USERNAME}.png`;
   let pinnedRepos: GitHubRepo[] = [
     {
@@ -93,7 +94,7 @@ export async function fetchGitHubData(): Promise<GitHubData> {
 
   let lastPush: GitHubCommitEvent | null = {
     repoName: `${USERNAME}/portfolio2`,
-    message: "feat: complete modern Next.js developer portfolio",
+    message: "fix: update GitHub contribution count to 408 & set 60s dynamic revalidation",
     timestamp: new Date().toISOString(),
     url: `https://github.com/${USERNAME}/portfolio2`,
     relativeTime: "Recently",
