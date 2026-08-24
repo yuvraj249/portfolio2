@@ -8,14 +8,21 @@ async function fetchRealContributions(username: string): Promise<{ total: number
       headers: {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)",
       },
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
 
     if (!res.ok) throw new Error("Failed to fetch contribution graph");
     const html = await res.text();
 
+    // Extract exact contribution count heading from GitHub HTML
+    let parsedTotal = 0;
+    const headerMatch = html.match(/([\d,]+)\s+contributions/i);
+    if (headerMatch) {
+      parsedTotal = parseInt(headerMatch[1].replace(/,/g, ""), 10);
+    }
+
     const days: GitHubContributionDay[] = [];
-    let total = 0;
+    let sumCount = 0;
 
     const cellRegex = /data-date=\"([^\"]+)\"[^>]*data-level=\"([^\"]+)\"/g;
     let match;
@@ -23,14 +30,16 @@ async function fetchRealContributions(username: string): Promise<{ total: number
       const date = match[1];
       const level = Math.min(4, Math.max(0, parseInt(match[2]))) as 0 | 1 | 2 | 3 | 4;
       const count = level === 4 ? 10 : level === 3 ? 6 : level === 2 ? 3 : level === 1 ? 1 : 0;
-      total += count;
+      sumCount += count;
       days.push({ date, count, level });
     }
 
-    return { total: 407, days: days.slice(-180) };
+    const total = parsedTotal > 0 ? parsedTotal : sumCount > 0 ? sumCount : 408;
+
+    return { total, days: days.slice(-180) };
   } catch (err) {
     console.error("Error parsing GitHub contributions:", err);
-    return { total: 407, days: [] };
+    return { total: 408, days: [] };
   }
 }
 
@@ -48,6 +57,14 @@ export async function fetchGitHubData(): Promise<GitHubData> {
   let publicReposCount = 12;
   let avatarUrl = `https://github.com/${USERNAME}.png`;
   let pinnedRepos: GitHubRepo[] = [
+    {
+      name: "portfolio2",
+      description: "Personal developer portfolio built with Next.js 14, TypeScript, Framer Motion & Tailwind",
+      url: `https://github.com/${USERNAME}/portfolio2`,
+      stars: 0,
+      language: "TypeScript",
+      updatedAt: "Recent",
+    },
     {
       name: "product-catalogue",
       description: "Full-stack inventory management system with Golang Gin API backend & MySQL database",
@@ -72,28 +89,20 @@ export async function fetchGitHubData(): Promise<GitHubData> {
       language: "Go",
       updatedAt: "Recent",
     },
-    {
-      name: "portfolio",
-      description: "Personal developer portfolio built with Next.js 14, TypeScript, Framer Motion & Tailwind",
-      url: `https://github.com/${USERNAME}/portfolio`,
-      stars: 0,
-      language: "TypeScript",
-      updatedAt: "Recent",
-    },
   ];
 
   let lastPush: GitHubCommitEvent | null = {
-    repoName: `${USERNAME}/product-catalogue`,
-    message: "feat: implement JWT authentication handler & GORM inventory models",
+    repoName: `${USERNAME}/portfolio2`,
+    message: "feat: complete modern Next.js developer portfolio",
     timestamp: new Date().toISOString(),
-    url: `https://github.com/${USERNAME}/product-catalogue`,
+    url: `https://github.com/${USERNAME}/portfolio2`,
     relativeTime: "Recently",
   };
 
   try {
     const userRes = await fetch(`https://api.github.com/users/${USERNAME}`, {
       headers,
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
     if (userRes.ok) {
       const userData = await userRes.json();
@@ -103,7 +112,7 @@ export async function fetchGitHubData(): Promise<GitHubData> {
 
     const reposRes = await fetch(`https://api.github.com/users/${USERNAME}/repos?sort=updated&per_page=6`, {
       headers,
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
     if (reposRes.ok) {
       const repos = await reposRes.json();
@@ -121,7 +130,7 @@ export async function fetchGitHubData(): Promise<GitHubData> {
 
     const eventsRes = await fetch(`https://api.github.com/users/${USERNAME}/events/public`, {
       headers,
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
     if (eventsRes.ok) {
       const events = await eventsRes.json();

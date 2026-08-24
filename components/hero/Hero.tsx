@@ -184,7 +184,7 @@ export default function Hero() {
     } else if (cmd === "projects") {
       response = "1. CodeMind (AI Codebase Assistant: https://frontend-vert-chi-72.vercel.app) | 2. Product Catalogue API (Go/Gin) | 3. IoT Home Automation";
     } else if (cmd === "stats") {
-      response = "GitHub: 407 contributions | LeetCode: 116 solved (68 Easy, 45 Med, 3 Hard)";
+      response = "GitHub: 408 contributions | LeetCode: 116 solved (68 Easy, 45 Med, 3 Hard)";
     } else if (cmd === "help") {
       response = "Available commands: whoami, skills, projects, stats, clear";
     } else {
@@ -291,7 +291,7 @@ export default function Hero() {
                 <div className="text-text-muted text-[11px]">LeetCode Solves</div>
               </div>
               <div>
-                <div className="text-gold-accent font-bold text-lg">407</div>
+                <div className="text-gold-accent font-bold text-lg">408</div>
                 <div className="text-text-muted text-[11px]">GitHub Commits</div>
               </div>
               <div>
