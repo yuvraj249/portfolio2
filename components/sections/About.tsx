@@ -10,7 +10,7 @@ export default function About() {
     <section id="about" className="py-24 bg-forest-900 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="BIOGRAPHY"
+          badge="ABOUT ME"
           title="Bridging Test Automation, Backends & Applied AI"
           description="Crafting resilient digital products through rigorous end-to-end testing, performant backend microservices, and modern vector retrieval pipelines."
         />
