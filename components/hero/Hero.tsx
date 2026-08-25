@@ -20,6 +20,7 @@ import {
   FileDown,
 } from "lucide-react";
 import MagneticButton from "../ui/MagneticButton";
+import AnimatedCounter from "../ui/AnimatedCounter";
 
 const CODE_SNIPPETS = [
   {
@@ -92,6 +93,25 @@ export default function Hero() {
     "Yuvraj Bisht OS Terminal v2.4",
     "Type 'help' to list available commands.",
   ]);
+
+  const [heroLeetCode, setHeroLeetCode] = useState(117);
+  const [heroGitHub, setHeroGitHub]     = useState(408);
+
+  useEffect(() => {
+    fetch("/api/leetcode")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.totalSolved) setHeroLeetCode(data.totalSolved);
+      })
+      .catch(() => {});
+
+    fetch("/api/github")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.totalContributions) setHeroGitHub(data.totalContributions);
+      })
+      .catch(() => {});
+  }, []);
 
   // Scroll-scrubbed hero effect
   const { scrollYProgress } = useScroll({
@@ -184,7 +204,7 @@ export default function Hero() {
     } else if (cmd === "projects") {
       response = "1. CodeMind (AI Codebase Assistant: https://frontend-vert-chi-72.vercel.app) | 2. Product Catalogue API (Go/Gin) | 3. IoT Home Automation";
     } else if (cmd === "stats") {
-      response = "GitHub: 408 contributions | LeetCode: 116 solved (68 Easy, 45 Med, 3 Hard)";
+      response = `GitHub: ${heroGitHub} contributions | LeetCode: ${heroLeetCode} solved`;
     } else if (cmd === "help") {
       response = "Available commands: whoami, skills, projects, stats, clear";
     } else {
@@ -287,11 +307,15 @@ export default function Hero() {
               className="grid grid-cols-3 gap-3 pt-6 border-t border-forest-750/60 font-mono text-xs"
             >
               <div>
-                <div className="text-emerald-bright font-bold text-lg">116</div>
+                <div className="text-emerald-bright font-bold text-lg">
+                  <AnimatedCounter value={heroLeetCode} />
+                </div>
                 <div className="text-text-muted text-[11px]">LeetCode Solves</div>
               </div>
               <div>
-                <div className="text-gold-accent font-bold text-lg">408</div>
+                <div className="text-gold-accent font-bold text-lg">
+                  <AnimatedCounter value={heroGitHub} />
+                </div>
                 <div className="text-text-muted text-[11px]">GitHub Commits</div>
               </div>
               <div>
