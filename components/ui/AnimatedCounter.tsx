@@ -24,7 +24,11 @@ export default function AnimatedCounter({
     damping: 30,
     stiffness: 100,
   });
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "0px" });
+
+  useEffect(() => {
+    motionValue.set(value);
+  }, [value, motionValue]);
 
   useEffect(() => {
     if (isInView) {
@@ -33,12 +37,20 @@ export default function AnimatedCounter({
   }, [isInView, motionValue, value]);
 
   useEffect(() => {
+    if (ref.current) {
+      ref.current.textContent = `${prefix}${value.toLocaleString()}${suffix}`;
+    }
+
     return springValue.on("change", (latest) => {
       if (ref.current) {
         ref.current.textContent = `${prefix}${Math.floor(latest).toLocaleString()}${suffix}`;
       }
     });
-  }, [springValue, prefix, suffix]);
+  }, [springValue, value, prefix, suffix]);
 
-  return <span ref={ref} className={className}>{prefix}0{suffix}</span>;
+  return (
+    <span ref={ref} className={className}>
+      {prefix}{value.toLocaleString()}{suffix}
+    </span>
+  );
 }
