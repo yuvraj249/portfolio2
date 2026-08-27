@@ -43,7 +43,7 @@ const CODE_SNIPPETS = [
     id: "playwright",
     title: "Playwright E2E Suite",
     language: "TypeScript",
-    code: `test.describe("EXXAT Web App A11y & E2E Suite", () => {
+    code: `test.describe("Web App A11y & E2E Suite", () => {
   test("verify keyboard navigation & a11y compliance", async ({ page }) => {
     await page.goto("/dashboard/erp");
     const accessibilityScan = await new AxeBuilder({ page }).analyze();
