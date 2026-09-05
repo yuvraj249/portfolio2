@@ -5,17 +5,17 @@ const USERNAME = "yuvrajbisht41";
 export async function fetchLeetCodeStats(): Promise<LeetCodeStats> {
   const fallbackStats: LeetCodeStats = {
     username: USERNAME,
-    totalSolved: 117,
-    easySolved: 69,
-    mediumSolved: 45,
+    totalSolved: 133,
+    easySolved: 84,
+    mediumSolved: 46,
     hardSolved: 3,
     totalQuestions: 3100,
-    ranking: 1443255,
+    ranking: 1305049,
     acceptanceRate: 62.4,
     recentSubmission: {
-      title: "Degree of an Array",
-      titleSlug: "degree-of-an-array",
-      timestamp: new Date(1787596421000).toISOString(),
+      title: "Maximum Product of Two Elements in an Array",
+      titleSlug: "maximum-product-of-two-elements-in-an-array",
+      timestamp: new Date().toISOString(),
       status: "Accepted",
       relativeTime: "Recently",
     },
@@ -55,7 +55,7 @@ export async function fetchLeetCodeStats(): Promise<LeetCodeStats> {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)",
       },
       body: JSON.stringify(gqlQuery),
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (gqlRes.ok) {

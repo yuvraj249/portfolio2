@@ -17,8 +17,8 @@ export default function LiveStats() {
     setIsRefreshing(true);
     try {
       const [ghRes, lcRes] = await Promise.all([
-        fetch("/api/github"),
-        fetch("/api/leetcode"),
+        fetch(`/api/github?t=${Date.now()}`, { cache: "no-store" }),
+        fetch(`/api/leetcode?t=${Date.now()}`, { cache: "no-store" }),
       ]);
 
       if (ghRes.ok) {
@@ -57,7 +57,7 @@ export default function LiveStats() {
     }
   };
 
-  const totalSolved = leetCodeStats?.totalSolved || 116;
+  const totalSolved = leetCodeStats?.totalSolved || 133;
 
   return (
     <section id="stats" className="py-24 bg-forest-950 relative overflow-hidden">
@@ -115,7 +115,7 @@ export default function LiveStats() {
           <TiltCard glowColor="gold">
             <div className="text-xs font-mono text-text-muted">Global Ranking</div>
             <div className="text-3xl font-sans font-extrabold text-text-primary mt-1">
-              <AnimatedCounter value={leetCodeStats?.ranking || 1443255} prefix="#" />
+              <AnimatedCounter value={leetCodeStats?.ranking || 1305049} prefix="#" />
             </div>
             <div className="text-[11px] font-mono text-text-secondary mt-1">LeetCode @yuvrajbisht41</div>
           </TiltCard>
@@ -245,12 +245,12 @@ export default function LiveStats() {
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="text-emerald-bright font-semibold">Easy</span>
-                      <span className="text-text-secondary">{leetCodeStats?.easySolved || 68} Solved</span>
+                      <span className="text-text-secondary">{leetCodeStats?.easySolved || 84} Solved</span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-forest-950 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
-                        whileInView={{ width: `${((leetCodeStats?.easySolved || 68) / totalSolved) * 100}%` }}
+                        whileInView={{ width: `${((leetCodeStats?.easySolved || 84) / totalSolved) * 100}%` }}
                         transition={{ duration: 1 }}
                         className="h-full bg-emerald-bright rounded-full"
                       />
@@ -261,12 +261,12 @@ export default function LiveStats() {
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="text-gold-bright font-semibold">Medium</span>
-                      <span className="text-text-secondary">{leetCodeStats?.mediumSolved || 45} Solved</span>
+                      <span className="text-text-secondary">{leetCodeStats?.mediumSolved || 46} Solved</span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-forest-950 overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
-                        whileInView={{ width: `${((leetCodeStats?.mediumSolved || 45) / totalSolved) * 100}%` }}
+                        whileInView={{ width: `${((leetCodeStats?.mediumSolved || 46) / totalSolved) * 100}%` }}
                         transition={{ duration: 1, delay: 0.2 }}
                         className="h-full bg-gold-accent rounded-full"
                       />

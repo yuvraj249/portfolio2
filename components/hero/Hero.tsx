@@ -94,18 +94,18 @@ export default function Hero() {
     "Type 'help' to list available commands.",
   ]);
 
-  const [heroLeetCode, setHeroLeetCode] = useState(117);
+  const [heroLeetCode, setHeroLeetCode] = useState(133);
   const [heroGitHub, setHeroGitHub]     = useState(408);
 
   useEffect(() => {
-    fetch("/api/leetcode")
+    fetch(`/api/leetcode?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (data.totalSolved) setHeroLeetCode(data.totalSolved);
       })
       .catch(() => {});
 
-    fetch("/api/github")
+    fetch(`/api/github?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (data.totalContributions) setHeroGitHub(data.totalContributions);
