@@ -130,7 +130,7 @@ export default function Contact() {
                   </button>
                 </MagneticButton>
 
-                <MagneticButton href="https://linkedin.com/in/yuvraj-bisht">
+                <MagneticButton href="https://www.linkedin.com/in/yuvraj-bisht-a75157275/">
                   <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-forest-800 hover:bg-forest-750 border border-forest-700 text-text-primary font-mono text-xs transition-colors">
                     <Linkedin className="h-4 w-4 text-gold-accent" />
                     <span>LinkedIn</span>
